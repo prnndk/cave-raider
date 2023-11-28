@@ -4,6 +4,6 @@
 /**
  * 
  */
-module finpro_pbo {
+module cave_raider {
 	requires java.desktop;
 }
