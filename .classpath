@@ -6,5 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="cave_raider_test/src/cave_raider_test"/>
+	<classpathentry kind="src" path="Res"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,42 +1,28 @@
-package id.its.pbo.cave_raider;
+package cave_raider_test;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
-import javax.imageio.ImageIO;
 
 public class Player {
     public static Color COLOR = new Color(255, 235, 13);
-    public static String TYPE = "p";
-    private static BufferedImage TILESHEET;
-
     private int queuedKey;
     private double xPos;
     private double yPos;
     private double xDir = 0;
     private double yDir = 0;
-    private double xDirVis = 0;
-    private double yDirVis = 0;
-    private int animationKey = 0;
     private boolean moving = false;
     private boolean win = false;
     private boolean alive = true;
-    private double speed = 30 / (double) Game.FPS;
+    private double speed = 30 / (double) Game.TPS;
 
     private int[] scores = new int[4];
-
-     static {
-         File playerImgPath = new File(Game.IMAGES + TYPE + "/tilesheet.png");
-         try {
-             TILESHEET = ImageIO.read(playerImgPath);
-         } catch (Exception e) {
-             System.out.println("Image/File of " + playerImgPath.getPath() + " not found");
-             e.printStackTrace();
-         }
-     }
 
     public Player(int x, int y) {
         xPos = x;
@@ -54,9 +40,9 @@ public class Player {
     public double getY() {
         return yPos;
     }
-
+    
     public void setX(double pos) {
-        xPos = pos;
+    	xPos = pos;
     }
 
     public void setY(double pos) {
@@ -82,32 +68,24 @@ public class Player {
                 case KeyEvent.VK_UP:
                     xDir = 0;
                     yDir = -speed;
-                    xDirVis = xDir;
-                    yDirVis = yDir;
                     moving = true;
                     break;
                 case KeyEvent.VK_D:
                 case KeyEvent.VK_RIGHT:
                     xDir = speed;
                     yDir = 0;
-                    xDirVis = xDir;
-                    yDirVis = yDir;
                     moving = true;
                     break;
                 case KeyEvent.VK_S:
                 case KeyEvent.VK_DOWN:
                     xDir = 0;
                     yDir = speed;
-                    xDirVis = xDir;
-                    yDirVis = yDir;
                     moving = true;
                     break;
                 case KeyEvent.VK_A:
                 case KeyEvent.VK_LEFT:
                     xDir = -speed;
                     yDir = 0;
-                    xDirVis = xDir;
-                    yDirVis = yDir;
                     moving = true;
                     break;
             }
@@ -117,11 +95,9 @@ public class Player {
     public void setDirection(double x, double y) {
         xDir = x;
         yDir = y;
-        xDirVis = xDir;
-        yDirVis = yDir;
     }
 
-    public int[] tryMove() {
+    public int[] attemptMove() {
         if (!moving) {
             setDirection(queuedKey);
         }
@@ -132,29 +108,31 @@ public class Player {
             newX = Math.ceil(newX);
         if (Math.signum(yDir) > 0)
             newY = Math.ceil(newY);
-        return new int[] { (int) newX, (int) newY };
+
+        return new int[]{(int) newX, (int) newY};
     }
 
     public int[] move() {
         xPos = round(xPos + xDir, 5);
         yPos = round(yPos + yDir, 5);
-        return new int[] { (int) xPos, (int) yPos };
+
+        return new int[]{(int) xPos, (int) yPos};
     }
 
-    public void setMoving(boolean move) {
-        moving = move;
+    public void setMoving(boolean value) {
+        moving = value;
         if (!moving) {
             xDir = 0;
             yDir = 0;
         }
     }
 
-    public void setWin(boolean status) {
-        this.win = status;
+    public void setWin(boolean w) {
+        win = w;
     }
 
-    public void setAlive(boolean alive) {
-        this.alive = alive;
+    public void setAlive(boolean a) {
+        alive = a;
     }
 
     public boolean isWin() {
@@ -182,34 +160,14 @@ public class Player {
         return queuedKey;
     }
 
-    public int getDirVis() {
-        if (xDirVis > 0) {
-            return 3;
-        } else if (xDirVis < 0) {
-            return 1;
-        } else if (yDirVis > 0) {
-            return 0;
-        } else if (yDirVis < 0) {
-            return 2;
-        }
-        return 0;
-    }
-
     public BufferedImage getImage(int scale) {
-         int x = 0;
-         int y = 1;
-         if (!moving) {
-             y = 0;
-             x = animationKey;
-         }
-         return TILESHEET;
-//         return Map.transformImage(
-//                 TILESHEET,
-//                 getDirVis() * Math.PI / 2, scale / Game.IMAGE_SIZE);
-    }
-
-    public void setAnimationKey(int value) {
-        animationKey = value;
+        int size = scale / 2;
+        BufferedImage image = new BufferedImage(scale, scale, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = image.createGraphics();
+        g.setColor(COLOR);
+        g.fillOval(size / 2, size / 2, size, size);
+        g.dispose();
+        return image;
     }
 
     public static double round(double value, int decimalPlaces) {
