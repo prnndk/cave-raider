@@ -50,7 +50,7 @@ public class Entity {
 		this.type = type;
 	}
 
-	public double getxPos() {
+	public double getX() {
 		return xPos;
 	}
 
@@ -58,7 +58,7 @@ public class Entity {
 		this.xPos = xPos;
 	}
 
-	public double getyPos() {
+	public double getY() {
 		return yPos;
 	}
 
@@ -76,6 +76,10 @@ public class Entity {
 
 	public int getFrame() {
 		return frame;
+	}
+
+	public BufferedImage getImage(int scale) {
+		return null;
 	}
 
 	public static Entity makeEntity(String type, double x, double y) {

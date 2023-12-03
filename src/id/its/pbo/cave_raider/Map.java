@@ -62,6 +62,22 @@ public class Map {
         this.tileSheet = tileSheet;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public BufferedImage getDot(double scale) {
+        if (VALUESHEET != null && value > 0) {
+            return transformImage(VALUESHEET.getSubimage(valueTick * Game.IMAGE_SIZE, (value - 1) * Game.IMAGE_SIZE,
+                    Game.IMAGE_SIZE, Game.IMAGE_SIZE), 0, scale / Game.IMAGE_SIZE);
+        }
+        return null;
+    }
+
     // public static Map newMap(String type, int xPos, int yPos) {
     // switch (type) {
     // case "w":
@@ -82,12 +98,14 @@ public class Map {
         double cos = Math.abs(Math.cos(rotation));
         int w = image.getWidth();
         int h = image.getHeight();
+        System.out.println("W: "+w);
+        System.out.println("H: "+h);
         int newWidth = (int) Math.floor(w * cos + h * sin);
         int newHeight = (int) Math.floor(h * cos + w * sin);
         BufferedImage result = new BufferedImage((int) (newWidth * scale), (int) (newHeight * scale), image.getType());
         AffineTransform at = new AffineTransform();
         at.scale(scale, scale);
-        at.rotate(rotation, w / 2, h / 2);
+//        at.rotate(rotation, w / 2, h / 2);
 
         AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         op.filter(image, result);
@@ -144,6 +162,10 @@ public class Map {
 
     public Color getColor() {
         return mapColor;
+    }
+
+    public boolean isKill() {
+        return kill;
     }
 
 }
