@@ -1,8 +1,9 @@
+package its.pbo.caveRaider;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import its.pbo.caveRaider.utilz.LoadSave;
-import static its.pbo.caveRaider.utilz.Constants.UI.URMButtons.*;
+import its.pbo.utilz.Constants.UI.URMButtons;
+import its.pbo.utilz.LoadSave;
 
 public class UrmButton extends PauseButton {
 	private BufferedImage[] imgs;
@@ -15,12 +16,13 @@ public class UrmButton extends PauseButton {
 		loadImgs();
 	}
 
+	private static final int URM_DEFAULT_SIZE = 32;
+
 	private void loadImgs() {
 		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.URM_BUTTONS);
 		imgs = new BufferedImage[3];
 		for (int i = 0; i < imgs.length; i++)
 			imgs[i] = temp.getSubimage(i * URM_DEFAULT_SIZE, rowIndex * URM_DEFAULT_SIZE, URM_DEFAULT_SIZE, URM_DEFAULT_SIZE);
-
 	}
 
 	public void update() {
@@ -33,7 +35,7 @@ public class UrmButton extends PauseButton {
 	}
 
 	public void draw(Graphics g) {
-		g.drawImage(imgs[index], x, y, URM_SIZE, URM_SIZE, null);
+		g.drawImage(imgs[index], x, y, URM_DEFAULT_SIZE, URM_DEFAULT_SIZE, null);
 	}
 
 	public void resetBools() {

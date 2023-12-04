@@ -1,13 +1,16 @@
+package its.pbo.caveRaider;
+
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 
-import its.pbo.caveRaider.utilz.Constants;
-import its.pbo.caveRaider.utilz.LoadSave;
-import static its.pbo.caveRaider.utilz.Constants.UI.PauseButtons.*;
-import static its.pbo.caveRaider.utilz.Constants.UI.URMButtons.*;
-import static its.pbo.caveRaider.utilz.Constants.UI.VolumeButtons.*;
+import its.pbo.utilz.Constants;
+import its.pbo.utilz.LoadSave;
+import static its.pbo.utilz.Constants.UI.PauseButtons.*;
+import static its.pbo.utilz.Constants.UI.URMButtons.*;
+import static its.pbo.utilz.Constants.UI.VolumeButtons.*;
+
 
 public class PauseOverlay {
 
@@ -125,7 +128,7 @@ public class PauseOverlay {
 				sfxButton.setMuted(!sfxButton.isMuted());
 		} else if (isIn(e, menuB)) {
 			if (menuB.isMousePressed()) {
-				Gamestate.state = Gamestate.MENU;
+				GameState.state = GameState.MENU;
 				playing.unpauseGame();
 			}
 		} else if (isIn(e, replayB)) {

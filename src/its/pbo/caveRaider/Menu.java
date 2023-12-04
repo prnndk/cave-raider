@@ -1,8 +1,10 @@
-import java.awt.Color;
+package its.pbo.caveRaider;
+
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import its.pbo.caveRaider.utilz.LoadSave;
+import its.pbo.utilz.LoadSave;
+import java.awt.image.BufferedImage;
 
 public class Menu extends State implements Statemethods {
 
@@ -27,9 +29,9 @@ public class Menu extends State implements Statemethods {
 	}
 
 	private void loadButtons() {
-		buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150 * Game.SCALE), 0, Gamestate.PLAYING);
-		buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (220 * Game.SCALE), 1, Gamestate.OPTIONS);
-		buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (290 * Game.SCALE), 2, Gamestate.QUIT);
+		buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150 * Game.SCALE), 0, GameState.PLAYING);
+		buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (220 * Game.SCALE), 1, GameState.OPTIONS);
+		buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (290 * Game.SCALE), 2, GameState.QUIT);
 	}
 
 	@Override
@@ -47,12 +49,7 @@ public class Menu extends State implements Statemethods {
 			mb.draw(g);
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		for (MenuButton mb : buttons) {
@@ -99,7 +96,7 @@ public class Menu extends State implements Statemethods {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER)
-			Gamestate.state = Gamestate.PLAYING;
+			GameState.state = GameState.PLAYING;
 
 	}
 

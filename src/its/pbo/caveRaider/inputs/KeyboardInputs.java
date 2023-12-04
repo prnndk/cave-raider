@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import its.pbo.caveRaider.GamePanel;
-import its.pbo.caveRaider.Player;
+import its.pbo.caveRaider.GameState;
 
 public class KeyboardInputs implements KeyListener{
 //	private Player player;
@@ -25,7 +25,7 @@ public class KeyboardInputs implements KeyListener{
 			gamePanel.getGame().getMenu().keyPressed(e);
 			break;
 		case PLAYING:
-			gamePanel.getGame().getPlaying().keypressed(e);
+			gamePanel.getGame().getPlaying().keyPressed(e);
 			break;
 		default:
 			break;

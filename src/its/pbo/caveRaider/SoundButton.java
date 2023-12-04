@@ -1,8 +1,9 @@
+package its.pbo.caveRaider;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import its.pbo.caveRaider.utilz.LoadSave;
-import static its.pbo.caveRaider.utilz.Constants.UI.PauseButtons.*;
+import its.pbo.utilz.LoadSave;
+import static its.pbo.utilz.Constants.UI.PauseButtons.*;
 
 public class SoundButton extends PauseButton {
 

@@ -6,6 +6,8 @@ import java.awt.Graphics;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+
 
 
 public class Game implements Runnable {
@@ -49,7 +51,7 @@ public class Game implements Runnable {
 	}
 
 	public void update() {
-		switch (Gamestate.state) {
+		switch (GameState.state) {
 		case MENU:
 			menu.update();
 			break;
@@ -66,7 +68,7 @@ public class Game implements Runnable {
 	}
 
 	public void render(Graphics g) {
-		switch (Gamestate.state) {
+		switch (GameState.state) {
 		case MENU:
 			menu.draw(g);
 			break;
@@ -124,7 +126,7 @@ public class Game implements Runnable {
 	}
 
 	public void windowFocusLost() {
-		if (Gamestate.state == Gamestate.PLAYING)
+		if (GameState.state == GameState.PLAYING)
 			playing.getPlayer().resetDirBooleans();
 	}
 

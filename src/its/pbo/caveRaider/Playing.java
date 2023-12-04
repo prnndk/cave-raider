@@ -1,5 +1,4 @@
-
-
+package its.pbo.caveRaider;	
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -42,11 +41,11 @@ public class Playing extends State implements Statemethods {
 			pauseOverlay.draw(g);
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1)
-			player.setAttacking(true);
-	}
+	//@Override
+	//public void mouseClicked(MouseEvent e) {
+		//if (e.getButton() == MouseEvent.BUTTON1)
+			//player.setAttacking(true);
+	//}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -57,9 +56,12 @@ public class Playing extends State implements Statemethods {
 		case KeyEvent.VK_D:
 			player.setRight(true);
 			break;
-		case KeyEvent.VK_SPACE:
-			player.setJump(true);
-			break;
+		case KeyEvent.VK_W:
+				player.setUp(false);
+				break;
+			case KeyEvent.VK_S:
+				player.setDown(false);
+				break;
 		case KeyEvent.VK_ESCAPE:
 			paused = !paused;
 			break;
@@ -69,17 +71,19 @@ public class Playing extends State implements Statemethods {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_A:
-			player.setLeft(false);
-			break;
-		case KeyEvent.VK_D:
-			player.setRight(false);
-			break;
-		case KeyEvent.VK_SPACE:
-			player.setJump(false);
-			break;
+			case KeyEvent.VK_A:
+				player.setLeft(false);
+				break;
+			case KeyEvent.VK_D:
+				player.setRight(false);
+				break;
+			case KeyEvent.VK_W:
+				player.setUp(false);
+				break;
+			case KeyEvent.VK_S:
+				player.setDown(false);
+				break;
 		}
-
 	}
 
 	public void mouseDragged(MouseEvent e) {

@@ -1,4 +1,4 @@
-
+package its.pbo.caveRaider;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
@@ -8,8 +8,6 @@ public interface Statemethods {
 	public void update();
 
 	public void draw(Graphics g);
-
-	public void mouseClicked(MouseEvent e);
 
 	public void mousePressed(MouseEvent e);
 

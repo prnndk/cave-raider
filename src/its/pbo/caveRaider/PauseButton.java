@@ -1,3 +1,5 @@
+package its.pbo.caveRaider;
+
 import java.awt.Rectangle;
 
 public class PauseButton {

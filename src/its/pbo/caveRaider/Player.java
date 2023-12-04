@@ -1,17 +1,13 @@
 package its.pbo.caveRaider;
 
-import static its.pbo.caveRaider.utilz.Constants.PlayerConstants.*;
+import static its.pbo.utilz.Constants.PlayerConstants.*;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 
-import javax.imageio.ImageIO;
 
-import its.pbo.caveRaider.utilz.LoadSave;
+import its.pbo.utilz.LoadSave;
 
-import static its.pbo.caveRaider.utilz.Constants.PlayerConstants.*;
-import static its.pbo.caveRaider.utilz.HelpMethods.canMoveHere;
+import static its.pbo.utilz.HelpMethods.canMoveHere;
 
 public class Player extends Entity {
 	private BufferedImage[][] image;
@@ -113,7 +109,7 @@ public class Player extends Entity {
 	}
 	
 	private void loadImage() {
-			BufferedImage img = LoadSave.GetSpiritAtlas(LoadSave.PLAYER_ATLAS);
+			BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
 			image = new BufferedImage[2][6];
 			for (int j = 0; j < image.length; j++)
 				for (int i = 0; i < image[j].length; i++)

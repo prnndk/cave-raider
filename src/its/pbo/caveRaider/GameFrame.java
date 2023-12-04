@@ -20,7 +20,7 @@ public class GameFrame{
 			@Override
 			public void windowLostFocus(WindowEvent e) {
 				// TODO Auto-generated method stub
-				panel.getGame().windowsFocusLost();
+				panel.getGame().windowFocusLost();
 			}
 			
 			@Override

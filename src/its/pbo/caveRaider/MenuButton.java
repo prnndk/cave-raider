@@ -1,19 +1,20 @@
+package its.pbo.caveRaider;	
+
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-
 import its.pbo.utilz.LoadSave;
 import static its.pbo.utilz.Constants.UI.Buttons.*;
 
 public class MenuButton {
 	private int xPos, yPos, rowIndex, index;
 	private int xOffsetCenter = B_WIDTH / 2;
-	private Gamestate state;
+	private GameState state;
 	private BufferedImage[] imgs;
 	private boolean mouseOver, mousePressed;
 	private Rectangle bounds;
 
-	public MenuButton(int xPos, int yPos, int rowIndex, Gamestate state) {
+	public MenuButton(int xPos, int yPos, int rowIndex, GameState state) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.rowIndex = rowIndex;
@@ -67,7 +68,7 @@ public class MenuButton {
 	}
 
 	public void applyGamestate() {
-		Gamestate.state = state;
+		GameState.state = state;
 	}
 
 	public void resetBools() {
