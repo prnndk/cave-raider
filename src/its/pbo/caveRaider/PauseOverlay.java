@@ -61,7 +61,7 @@ public class PauseOverlay {
 		backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.PAUSE_BACKGROUND);
 		bgW = (int) (backgroundImg.getWidth() * Game.SCALE);
 		bgH = (int) (backgroundImg.getHeight() * Game.SCALE);
-		bgX = Game.GAME_WIDTH / 2 - bgW / 2;
+		bgX = Game.GAME_WIDTH / 3 - 300;
 		bgY = (int) (25 * Game.SCALE);
 
 	}
