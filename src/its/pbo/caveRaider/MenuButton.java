@@ -1,13 +1,15 @@
-package its.pbo.caveRaider;	
+package its.pbo.caveRaider;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+
 import its.pbo.utilz.LoadSave;
 import static its.pbo.utilz.Constants.UI.Buttons.*;
 
 public class MenuButton {
-	private int xPos, yPos, rowIndex, index;
+	private int xPos, yPos;
+	private int rowIndex, index;
 	private int xOffsetCenter = B_WIDTH / 2;
 	private GameState state;
 	private BufferedImage[] imgs;

@@ -3,43 +3,49 @@ package its.pbo.caveRaider;
 import static its.pbo.utilz.Constants.PlayerConstants.*;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
+import javax.imageio.ImageIO;
 
 import its.pbo.utilz.LoadSave;
 
+import static its.pbo.utilz.Constants.PlayerConstants.*;
 import static its.pbo.utilz.HelpMethods.canMoveHere;
 
 public class Player extends Entity {
 	private BufferedImage[][] image;
 	public static final String TYPE = "p";
-	private int animTick, animIndex,animSpeed =25;
+	private int animTick, animIndex, animSpeed = 25;
 	private int playerAction = IDLE;
 	private boolean moving = false;
-	private boolean left,up,right,down;
-	private double playerSpeed = 8f;
+	private boolean left, up, right, down, canMove, isMoving;
+	private double playerSpeed = 10f, xSpeed = 0, ySpeed = 0;
 	private int[][] lvlData;
-	private float xDrawOffset = 6 * Game.SCALE;
+	private float xDrawOffset = 3 * Game.SCALE;
 	private float yDrawOffset = 4 * Game.SCALE;
-	
-	public Player(double x, double y,int width,int height) {
-		super(x,y,width,height);
+
+	public Player(double x, double y, int width, int height) {
+		super(x, y, width, height);
 		loadImage();
-		initHitBox(x, y, 13*Game.SCALE, 13*Game.SCALE);
+		initHitBox(x, y, 15 * Game.SCALE, 13 * Game.SCALE);
 	}
-	
+
 	public void update() {
 		updatePos();
 		updateAnimationTick();
 		setAnimation();
 	}
-	
+
 	public void render(Graphics g) {
-		g.drawImage(image[playerAction][animIndex], (int) (hitBox.x - xDrawOffset), (int) (hitBox.y - yDrawOffset), width, height, null);
-//		drawHitBox(g);
+		g.drawImage(image[playerAction][animIndex], (int) (hitBox.x - xDrawOffset), (int) (hitBox.y - yDrawOffset),
+				width, height, null);
+//		 drawHitBox(g);
 	}
+
 	private void updateAnimationTick() {
 		animTick++;
-		if(animTick >= animSpeed) {
+		if (animTick >= animSpeed) {
 			animTick = 0;
 			animIndex++;
 			if (animIndex >= GetSpriteAmount(playerAction)) {
@@ -47,27 +53,32 @@ public class Player extends Entity {
 			}
 		}
 	}
+
 	private void setAnimation() {
 		int startAnim = playerAction;
-		if(moving)
+		if (moving || isMoving)
 			playerAction = RUNNING;
 		else
 			playerAction = IDLE;
-		
-		if(startAnim != playerAction) {
+
+		if (startAnim != playerAction) {
 			resetAniTick();
 		}
 	}
+
 	private void resetAniTick() {
 		animTick = 0;
 		animIndex = 0;
 	}
+
 	private void updatePos() {
 		moving = false;
-		if(!left&&!right&&!up&&!down)
+		isMoving = false;
+		if (!left && !right && !up && !down)
 			return;
-		
-		double xSpeed = 0, ySpeed=0;
+
+		xSpeed = 0;
+		ySpeed = 0;
 		if (left && !right) {
 			xSpeed = -playerSpeed;
 		} else if (right && !left) {
@@ -79,52 +90,53 @@ public class Player extends Entity {
 		} else if (down && !up) {
 			ySpeed = playerSpeed;
 		}
-//		if(canMoveHere(hitBox.x + xSpeed,hitBox.y +ySpeed,hitBox.width,hitBox.height,lvlData)) {
-//			hitBox.x += xSpeed;
-//			hitBox.y += ySpeed;
-//			moving = true;
-//		}
-//		while (canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData)) {
-//	        hitBox.x += xSpeed;
-//	        hitBox.y += ySpeed;
-//	        this.setMo
-//	        
-//	        setAnimation();
-//	        updateAnimationTick();
-//	    }
-		boolean canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData);
-			if (canMove) {
-			hitBox.x += xSpeed;
-			hitBox.y += ySpeed;
+		canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData);
+		if (canMove) {
+			isMoving = true;
 			moving = true;
-		}
-
-		while (canMove) {
-			hitBox.x += xSpeed;
-			hitBox.y += ySpeed;
 			setAnimation();
-			updateAnimationTick();
-			canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData);
+			Thread movementThread = new Thread(() -> {
+				while (canMove) {
+					hitBox.x += xSpeed;
+					hitBox.y += ySpeed;
+					canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData);
+
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				moving = false;
+				setAnimation();
+			});
+			movementThread.start();
+		} else {
+			moving = false;
+			setAnimation();
 		}
+		isMoving = false;
 	}
-	
+
 	private void loadImage() {
-			BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
-			image = new BufferedImage[2][6];
-			for (int j = 0; j < image.length; j++)
-				for (int i = 0; i < image[j].length; i++)
-					image[j][i] = img.getSubimage(i * 12, j * 12, 12, 12);
+		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
+		image = new BufferedImage[2][6];
+		for (int j = 0; j < image.length; j++)
+			for (int i = 0; i < image[j].length; i++)
+				image[j][i] = img.getSubimage(i * 12, j * 12, 12, 12);
 	}
+
 	public void loadLvlData(int[][] lvlData) {
 		this.lvlData = lvlData;
 	}
+
 	public void resetDirBooleans() {
 		left = false;
 		right = false;
 		up = false;
 		down = false;
 	}
-	
+
 	public boolean isLeft() {
 		return left;
 	}
