@@ -6,62 +6,87 @@ import java.awt.Graphics;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 public class Game implements Runnable {
-	public static final int FPS = 120;
-	public static final int TILES_DEFAULT_SIZE = 36;
-	public static final float SCALE = 2f;
-	public static final int TILES_WIDTH = 36;
-	public static final int TILES_HEIGHT = 46;
-	public static final int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
-	public static final int GAME_WIDTH = TILES_SIZE * TILES_WIDTH;
-	public static final int GAME_HEIGHT = TILES_SIZE * TILES_HEIGHT;
-	
-	private final int UPS = 200;
-	public static final int WIDTH = 720;
-	public static final int HEIGHT = 1080;
+
 	private GameFrame frame;
-	private GamePanel panel;
+	private GamePanel gamePanel;
 	private Thread gameThread;
-	
-	private Player player;
-	private LevelManager levelManager;
-	
-	public Game() {
-	initClasses();
-	
-	panel = new GamePanel(this);
-	frame = new GameFrame(panel);
-	panel.requestFocus();
-		
-	startGameLoop();
-	}
-	public static void main(String[] args) {
+	private final int FPS_SET = 120;
+	private final int UPS_SET = 200;
+
+	private Playing playing;
+	private Menu menu;
+
+	public final static int TILES_DEFAULT_SIZE = 36;
+	public final static float SCALE = 2f;
+	public final static int TILES_IN_WIDTH = 36;
+	public final static int TILES_IN_HEIGHT = 46;
+	public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
+	public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
+	public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+
+	public static void main(String args[]) {
 		new Game();
 	}
-	
-	private void initClasses() {
-		levelManager = new LevelManager(this);
-		player = new Player(200,200,(int) (20*SCALE), (int)(20*SCALE));
-		player.loadLvlData(levelManager.getCurrentLevelData().getLevelData());
+
+	public Game() {
+		initClasses();
+
+		gamePanel = new GamePanel(this);
+		frame = new GameFrame(gamePanel);
+		gamePanel.requestFocus();
+
+		startGameLoop();
+
 	}
+
+	private void initClasses() {
+		menu = new Menu(this);
+		playing = new Playing(this);
+	}
+
 	private void startGameLoop() {
 		gameThread = new Thread(this);
 		gameThread.start();
 	}
+
 	public void update() {
-		player.update();
-		levelManager.update();
+		switch (GameState.state) {
+			case MENU:
+				menu.update();
+				break;
+			case PLAYING:
+				playing.update();
+				break;
+			case OPTIONS:
+			case QUIT:
+			default:
+				System.exit(0);
+				break;
+
+		}
 	}
+
 	public void render(Graphics g) {
-		levelManager.draw(g);
-		player.render(g);
+		switch (GameState.state) {
+			case MENU:
+				menu.draw(g);
+				break;
+			case PLAYING:
+				playing.draw(g);
+				break;
+			default:
+				break;
+		}
 	}
+
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		double timePerFrame = 1000000000.0 / FPS;
-		double timePerUpdate = 1000000000.0 / UPS;
+
+		double timePerFrame = 1000000000.0 / FPS_SET;
+		double timePerUpdate = 1000000000.0 / UPS_SET;
 
 		long previousTime = System.nanoTime();
 
@@ -86,7 +111,7 @@ public class Game implements Runnable {
 			}
 
 			if (deltaF >= 1) {
-				panel.repaint();
+				gamePanel.repaint();
 				frames++;
 				deltaF--;
 			}
@@ -99,12 +124,20 @@ public class Game implements Runnable {
 
 			}
 		}
+
 	}
-	public void windowsFocusLost() {
-		player.resetDirBooleans();
+
+	public void windowFocusLost() {
+		if (GameState.state == GameState.PLAYING)
+			playing.getPlayer().resetDirBooleans();
 	}
-	public Player getPlayer() {
-		return player;
+
+	public Menu getMenu() {
+		return menu;
+	}
+
+	public Playing getPlaying() {
+		return playing;
 	}
 
 }

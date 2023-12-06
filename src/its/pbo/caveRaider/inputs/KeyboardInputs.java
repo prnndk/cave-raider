@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import its.pbo.caveRaider.GamePanel;
-import its.pbo.caveRaider.Player;
+import its.pbo.caveRaider.GameState;
 
 public class KeyboardInputs implements KeyListener{
 //	private Player player;
@@ -20,39 +20,32 @@ public class KeyboardInputs implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_W:
-			gamePanel.getGame().getPlayer().setUp(true);
-			System.out.println(e.getKeyCode());
+		switch(GameState.state) {
+		case MENU:
+			gamePanel.getGame().getMenu().keyPressed(e);
 			break;
-		case KeyEvent.VK_A:
-			gamePanel.getGame().getPlayer().setLeft(true);
+		case PLAYING:
+			gamePanel.getGame().getPlaying().keyPressed(e);
 			break;
-		case KeyEvent.VK_S:
-			gamePanel.getGame().getPlayer().setDown(true);
+		default:
 			break;
-		case KeyEvent.VK_D:
-			gamePanel.getGame().getPlayer().setRight(true);
-			break;
-		}
+
 	}
+	}
+	
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_W:
-			gamePanel.getGame().getPlayer().setUp(false);
+		switch(GameState.state) {
+		case MENU:
+			gamePanel.getGame().getMenu().keyReleased(e);
 			break;
-		case KeyEvent.VK_A:
-			gamePanel.getGame().getPlayer().setLeft(false);
+		case PLAYING:
+			gamePanel.getGame().getPlaying().keyReleased(e);
 			break;
-		case KeyEvent.VK_S:
-			gamePanel.getGame().getPlayer().setDown(false);
+		default:
 			break;
-		case KeyEvent.VK_D:
-			gamePanel.getGame().getPlayer().setRight(false);
-			break;
+		
 		}
 	}
 

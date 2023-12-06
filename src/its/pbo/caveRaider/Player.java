@@ -22,7 +22,7 @@ public class Player extends Entity {
 	private boolean left, up, right, down, canMove, isMoving;
 	private double playerSpeed = 10f, xSpeed = 0, ySpeed = 0;
 	private int[][] lvlData;
-	private float xDrawOffset = 6 * Game.SCALE;
+	private float xDrawOffset = 3 * Game.SCALE;
 	private float yDrawOffset = 4 * Game.SCALE;
 
 	public Player(double x, double y, int width, int height) {
@@ -40,7 +40,7 @@ public class Player extends Entity {
 	public void render(Graphics g) {
 		g.drawImage(image[playerAction][animIndex], (int) (hitBox.x - xDrawOffset), (int) (hitBox.y - yDrawOffset),
 				width, height, null);
-		// drawHitBox(g);
+//		 drawHitBox(g);
 	}
 
 	private void updateAnimationTick() {
@@ -119,7 +119,7 @@ public class Player extends Entity {
 	}
 
 	private void loadImage() {
-		BufferedImage img = LoadSave.GetSpiritAtlas(LoadSave.PLAYER_ATLAS);
+		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
 		image = new BufferedImage[2][6];
 		for (int j = 0; j < image.length; j++)
 			for (int i = 0; i < image[j].length; i++)

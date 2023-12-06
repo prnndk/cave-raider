@@ -21,7 +21,7 @@ public class GamePanel extends JPanel {
 		addKeyListener(new KeyboardInputs(this));
 	}
 	private void setPanelSize() {
-		setPreferredSize(new Dimension(game.GAME_WIDTH,game.GAME_HEIGHT));
+		setPreferredSize(new Dimension(Game.GAME_WIDTH, Game.GAME_HEIGHT));
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
