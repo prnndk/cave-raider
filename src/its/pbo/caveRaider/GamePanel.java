@@ -12,13 +12,18 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import its.pbo.caveRaider.inputs.KeyboardInputs;
+import its.pbo.caveRaider.inputs.MouseInputs;
 
 public class GamePanel extends JPanel {
 	private Game game;
+	private MouseInputs mouseInputs;
 	public GamePanel(Game game) {
+		mouseInputs = new MouseInputs(this);
 		this.game = game;
 		setPanelSize();
 		addKeyListener(new KeyboardInputs(this));
+		addMouseListener(new MouseInputs(this));
+		addMouseMotionListener(mouseInputs);
 	}
 	private void setPanelSize() {
 		setPreferredSize(new Dimension(Game.GAME_WIDTH, Game.GAME_HEIGHT));

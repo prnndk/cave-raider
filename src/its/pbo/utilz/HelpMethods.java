@@ -1,9 +1,11 @@
 package its.pbo.utilz;
 
+import java.awt.geom.Rectangle2D;
+
 import its.pbo.caveRaider.Game;
 
 public class HelpMethods {
-	public static boolean canMoveHere(double x, double y, double width,double height,int[][] lvlData ) {
+	public static boolean canMoveHere(double x, double y, double width, double height, int[][] lvlData) {
 		if (!isSolid(x, y, lvlData))
 			if (!isSolid(x + width, y + height, lvlData))
 				if (!isSolid(x + width, y, lvlData))
@@ -11,20 +13,31 @@ public class HelpMethods {
 						return true;
 		return false;
 	}
-	
+
 	private static boolean isSolid(double x, double y, int[][] lvlData) {
 		int maxWidth = lvlData[0].length * Game.TILES_SIZE;
-		if(x<0||x>=maxWidth)
+		int maxHeight = lvlData.length * Game.TILES_SIZE;
+		if (x < 0 || x >= maxWidth)
 			return true;
-		if(y<0||y>=Game.GAME_HEIGHT)
+		if (y < 0 || y >= maxHeight)
 			return true;
-		
-		double xIndex = x/Game.TILES_SIZE;
-		double yIndex = y/Game.TILES_SIZE;
-		
-		int value = lvlData[(int)yIndex][(int) xIndex];
-		if(value>=48 || value < 0 ||value!=11)
+
+		double xIndex = x / Game.TILES_SIZE;
+		double yIndex = y / Game.TILES_SIZE;
+
+		int value = lvlData[(int) yIndex][(int) xIndex];
+		if (value >= 48 || value < 0 || value != 11)
 			return true;
 		return false;
+	}
+
+	public static boolean IsEntityOnFloor(Rectangle2D.Double hitbox, int[][] lvlData) {
+		// Check the pixel below bottomleft and bottomright
+		if (!isSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData))
+			if (!isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData))
+				return false;
+
+		return true;
+
 	}
 }

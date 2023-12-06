@@ -37,10 +37,11 @@ public class Player extends Entity {
 		setAnimation();
 	}
 
-	public void render(Graphics g) {
-		g.drawImage(image[playerAction][animIndex], (int) (hitBox.x - xDrawOffset), (int) (hitBox.y - yDrawOffset),
+	public void render(Graphics g, int xLvlOffset, int yLvlOffset) {
+		g.drawImage(image[playerAction][animIndex], (int) (hitBox.x - xDrawOffset) - xLvlOffset,
+				(int) (hitBox.y - yDrawOffset) - yLvlOffset,
 				width, height, null);
-//		 drawHitBox(g);
+		// drawHitBox(g);
 	}
 
 	private void updateAnimationTick() {
@@ -90,7 +91,8 @@ public class Player extends Entity {
 		} else if (down && !up) {
 			ySpeed = playerSpeed;
 		}
-		canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData);
+		canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width,
+				hitBox.height, lvlData);
 		if (canMove) {
 			isMoving = true;
 			moving = true;
@@ -99,23 +101,23 @@ public class Player extends Entity {
 				while (canMove) {
 					hitBox.x += xSpeed;
 					hitBox.y += ySpeed;
-					canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData);
+					canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width,
+							hitBox.height, lvlData);
 
 					try {
-						Thread.sleep(100);
+						Thread.sleep(150);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
-				moving = false;
-				setAnimation();
 			});
 			movementThread.start();
 		} else {
+
 			moving = false;
-			setAnimation();
 		}
-		isMoving = false;
+		isMoving = moving;
+		setAnimation();
 	}
 
 	private void loadImage() {
