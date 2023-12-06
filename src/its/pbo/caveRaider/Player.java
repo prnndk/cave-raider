@@ -28,7 +28,7 @@ public class Player extends Entity {
 	public Player(double x, double y, int width, int height) {
 		super(x, y, width, height);
 		loadImage();
-		initHitBox(x, y, 13 * Game.SCALE, 13 * Game.SCALE);
+		initHitBox(x, y, 15 * Game.SCALE, 13 * Game.SCALE);
 	}
 
 	public void update() {

@@ -31,15 +31,15 @@ public class PauseOverlay {
 	}
 
 	private void createVolumeButton() {
-		int vX = (int) (309 * Game.SCALE);
+		int vX =  Game.GAME_WIDTH / 3 - 253;
 		int vY = (int) (278 * Game.SCALE);
 		volumeButton = new VolumeButton(vX, vY, SLIDER_WIDTH, VOLUME_HEIGHT);
 	}
 
 	private void createUrmButtons() {
-		int menuX = (int) (313 * Game.SCALE);
-		int replayX = (int) (387 * Game.SCALE);
-		int unpauseX = (int) (462 * Game.SCALE);
+		int menuX = Game.GAME_WIDTH / 3 - 200;
+		int replayX = Game.GAME_WIDTH / 3 + 70;
+		int unpauseX = Game.GAME_WIDTH / 3 - 65;
 		int bY = (int) (325 * Game.SCALE);
 
 		menuB = new UrmButton(menuX, bY, URM_SIZE, URM_SIZE, 2);

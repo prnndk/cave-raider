@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+
+
 public class Game implements Runnable {
 
 	private GameFrame frame;
@@ -30,7 +32,7 @@ public class Game implements Runnable {
 	public static void main(String args[]) {
 		new Game();
 	}
-
+	
 	public Game() {
 		initClasses();
 
@@ -54,31 +56,31 @@ public class Game implements Runnable {
 
 	public void update() {
 		switch (GameState.state) {
-			case MENU:
-				menu.update();
-				break;
-			case PLAYING:
-				playing.update();
-				break;
-			case OPTIONS:
-			case QUIT:
-			default:
-				System.exit(0);
-				break;
+		case MENU:
+			menu.update();
+			break;
+		case PLAYING:
+			playing.update();
+			break;
+		case OPTIONS:
+		case QUIT:
+		default:
+			System.exit(0);
+			break;
 
 		}
 	}
 
 	public void render(Graphics g) {
 		switch (GameState.state) {
-			case MENU:
-				menu.draw(g);
-				break;
-			case PLAYING:
-				playing.draw(g);
-				break;
-			default:
-				break;
+		case MENU:
+			menu.draw(g);
+			break;
+		case PLAYING:
+			playing.draw(g);
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -140,4 +142,5 @@ public class Game implements Runnable {
 		return playing;
 	}
 
+	
 }
