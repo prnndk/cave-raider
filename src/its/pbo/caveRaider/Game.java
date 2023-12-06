@@ -33,7 +33,7 @@ public class Game implements Runnable {
 	panel = new GamePanel(this);
 	frame = new GameFrame(panel);
 	panel.requestFocus();
-
+		
 	startGameLoop();
 	}
 	public static void main(String[] args) {
