@@ -22,13 +22,17 @@ public class Player extends Entity {
 	private boolean left, up, right, down, canMove, isMoving;
 	private double playerSpeed = 10f, xSpeed = 0, ySpeed = 0;
 	private int[][] lvlData;
-	private float xDrawOffset = 6 * Game.SCALE;
+	private float xDrawOffset = 3 * Game.SCALE;
 	private float yDrawOffset = 4 * Game.SCALE;
 
 	public Player(double x, double y, int width, int height) {
 		super(x, y, width, height);
 		loadImage();
+<<<<<<< HEAD
 		initHitBox(x, y, 13 * Game.SCALE, 13 * Game.SCALE);
+=======
+		initHitBox(x, y, 15 * Game.SCALE, 13 * Game.SCALE);
+>>>>>>> 6ee467ed6808dcf4e85ffc4f6778a72b38e11b22
 	}
 
 	public void update() {
@@ -40,7 +44,11 @@ public class Player extends Entity {
 	public void render(Graphics g) {
 		g.drawImage(image[playerAction][animIndex], (int) (hitBox.x - xDrawOffset), (int) (hitBox.y - yDrawOffset),
 				width, height, null);
+<<<<<<< HEAD
 		// drawHitBox(g);
+=======
+//		 drawHitBox(g);
+>>>>>>> 6ee467ed6808dcf4e85ffc4f6778a72b38e11b22
 	}
 
 	private void updateAnimationTick() {
@@ -119,7 +127,11 @@ public class Player extends Entity {
 	}
 
 	private void loadImage() {
+<<<<<<< HEAD
 		BufferedImage img = LoadSave.GetSpiritAtlas(LoadSave.PLAYER_ATLAS);
+=======
+		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
+>>>>>>> 6ee467ed6808dcf4e85ffc4f6778a72b38e11b22
 		image = new BufferedImage[2][6];
 		for (int j = 0; j < image.length; j++)
 			for (int i = 0; i < image[j].length; i++)
