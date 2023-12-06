@@ -16,7 +16,7 @@ public class UrmButton extends PauseButton {
 		loadImgs();
 	}
 
-	private static final int URM_DEFAULT_SIZE = 32;
+	private static final int URM_DEFAULT_SIZE = 56;
 
 	private void loadImgs() {
 		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.URM_BUTTONS);
