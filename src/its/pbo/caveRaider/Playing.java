@@ -10,6 +10,7 @@ import its.pbo.utilz.LoadSave;
 public class Playing extends State implements Statemethods {
 	private Player player;
 	private LevelManager levelManager;
+	private EnemyManager enemyManager;
 	private PauseOverlay pauseOverlay;
 	private boolean paused = false;
 	private int xLvlOffset;
@@ -32,6 +33,7 @@ public class Playing extends State implements Statemethods {
 
 	private void initClasses() {
 		levelManager = new LevelManager(game);
+		enemyManager = new EnemyManager(this);
 		player = new Player(200, 200, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
 		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
 		pauseOverlay = new PauseOverlay(this);
@@ -41,8 +43,9 @@ public class Playing extends State implements Statemethods {
 	public void update() {
 		if (!paused) {
 			levelManager.update();
-			checkCloseToBorder();
 			player.update();
+			enemyManager.update(levelManager.getCurrentLevel().getLevelData());
+			checkCloseToBorder();
 		} else {
 			pauseOverlay.update();
 		}
@@ -79,18 +82,14 @@ public class Playing extends State implements Statemethods {
 	public void draw(Graphics g) {
 		levelManager.draw(g, xLvlOffset, yLvlOffset);
 		player.render(g, xLvlOffset, yLvlOffset);
-
-		if (paused)
-			// g.setColor(new Color(0,0,150));
-			// g.fillRect(0, 0, Game.GAME_WIDTH, game.GAME_HEIGHT);
+		enemyManager.draw(g,xLvlOffset,yLvlOffset);
+		if (paused) {
+			g.setColor(new Color(0,0,0,150));
+			g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
 			pauseOverlay.draw(g);
+		}
+			
 	}
-
-	// @Override
-	// public void mouseClicked(MouseEvent e) {
-	// if (e.getButton() == MouseEvent.BUTTON1)
-	// player.setAttacking(true);
-	// }
 
 	@Override
 	public void keyPressed(KeyEvent e) {

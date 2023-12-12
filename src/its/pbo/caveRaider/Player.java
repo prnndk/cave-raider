@@ -57,7 +57,7 @@ public class Player extends Entity {
 
 	private void setAnimation() {
 		int startAnim = playerAction;
-		if (moving || isMoving)
+		if (isMoving && moving)
 			playerAction = RUNNING;
 		else
 			playerAction = IDLE;
@@ -75,9 +75,9 @@ public class Player extends Entity {
 	private void updatePos() {
 		moving = false;
 		isMoving = false;
-		if (!left && !right && !up && !down)
+		if (!left && !right && !up && !down) {
 			return;
-
+		}
 		xSpeed = 0;
 		ySpeed = 0;
 		if (left && !right) {
@@ -91,32 +91,34 @@ public class Player extends Entity {
 		} else if (down && !up) {
 			ySpeed = playerSpeed;
 		}
-		canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width,
-				hitBox.height, lvlData);
+		canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData);
 		if (canMove) {
-			isMoving = true;
-			moving = true;
-			setAnimation();
 			Thread movementThread = new Thread(() -> {
 				while (canMove) {
 					hitBox.x += xSpeed;
 					hitBox.y += ySpeed;
-					canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width,
-							hitBox.height, lvlData);
-
+					canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData);
+					if (canMove) {
+						moving = true;
+						isMoving = true;
+					} else {
+						moving = false;
+						isMoving = false;
+					}
+					System.out.println("is moving: " + isMoving + " move:" + moving + " can move:" + canMove + "\n");
+					setAnimation();
 					try {
 						Thread.sleep(150);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
+				// Align the player to the grid
+				hitBox.x = Math.round(hitBox.x / (Game.SCALE * 12)) * (Game.SCALE * 12);
+				hitBox.y = Math.round(hitBox.y / (Game.SCALE * 12)) * (Game.SCALE * 12);
 			});
 			movementThread.start();
-		} else {
-
-			moving = false;
 		}
-		isMoving = moving;
 		setAnimation();
 	}
 
