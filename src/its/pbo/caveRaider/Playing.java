@@ -28,6 +28,8 @@ public class Playing extends State implements Statemethods {
     private int maxTilesOffsetY = lvlTilesHigh - Game.TILES_IN_HEIGHT;
     private int maxLvlOffsetX = maxTilesOffsetX * Game.TILES_SIZE;
     private int maxLvlOffsetY = maxTilesOffsetY * Game.TILES_SIZE;
+    private GameOverOverlay gameOverOverlay;
+
 
 
     public Playing(Game game) {
@@ -41,6 +43,7 @@ public class Playing extends State implements Statemethods {
         player = new Player(200, 200, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         pauseOverlay = new PauseOverlay(this);
+        gameOverOverlay = new GameOverOverlay(this);
     }
 
     @Override
@@ -52,15 +55,11 @@ public class Playing extends State implements Statemethods {
             checkCloseToBorder();
 
             checkPlayerBatCollisions();
-        } else {
-            if (!gameOver) {
-                levelManager.update();
-				player.update();
-				enemyManager.update(levelManager.getCurrentLevel().getLevelData());
-				checkCloseToBorder();
+        } else if (gameOver) {
+                    gameOverOverlay.update();
             }
         }
-    }
+    
 
     private void checkPlayerBatCollisions() {
         Double playerHitBox = player.getHitBox();
@@ -123,7 +122,13 @@ public class Playing extends State implements Statemethods {
         g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
         pauseOverlay.draw(g);
         }
+        else if (gameOver){
+            g.setColor(new Color(0, 0, 0, 150));
+            g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+            gameOverOverlay.draw(g);
+        
     }
+}
     
 
     @Override
@@ -164,6 +169,11 @@ public class Playing extends State implements Statemethods {
                 break;
         }
     }
+
+    public void resetAll() {
+		gameOver = false;
+		paused = false;
+	}
 
     public void mouseDragged(MouseEvent e) {
         if (paused)

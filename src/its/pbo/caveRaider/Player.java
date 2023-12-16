@@ -55,6 +55,8 @@ public class Player extends Entity {
 		}
 	}
 
+	
+
 	private void setAnimation() {
 		int startAnim = playerAction;
 		if (isMoving && moving)
