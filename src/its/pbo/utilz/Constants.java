@@ -3,7 +3,34 @@ package its.pbo.utilz;
 import its.pbo.caveRaider.Game;
 
 public class Constants {
-
+	public static class EnemyConstants{
+		public static final int BAT = 0;
+		
+		public static final int IDLE = 0;
+		public static final int RUNNING = 1;
+		
+		public static final int BAT_WIDTH_DEFAULT = 12;
+		public static final int BAT_HEIGHT_DEFAULT = 12;
+		
+		public static final int BAT_WIDTH = (int) (BAT_WIDTH_DEFAULT * Game.SCALE);
+		public static final int BAT_HEIGHT = (int) (BAT_HEIGHT_DEFAULT * Game.SCALE);
+		
+		public static final int BAT_DRAWOFFSET_X = (int) (24*Game.SCALE);
+		public static final int BAT_DRAWOFFSET_Y = (int) (2*Game.SCALE);
+		
+		public static int getSpriteAmount(int enemyType,int enemyState) {
+			switch (enemyType) {
+			case BAT: 
+				switch (enemyState) {
+				case IDLE: 
+					return 5;
+				case RUNNING:
+					return 5;
+				}
+			}	
+			return 0;	
+		}
+	}
 	public static class UI {
 		public static class Buttons {
 			public static final int B_WIDTH_DEFAULT = 140;

@@ -4,10 +4,14 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import its.pbo.caveRaider.Bat;
 import its.pbo.caveRaider.Game;
+
+import static its.pbo.utilz.Constants.EnemyConstants.BAT;
 
 public class LoadSave {
 
@@ -20,7 +24,11 @@ public class LoadSave {
 	public static final String SOUND_BUTTONS = "sound_button.png";
 	public static final String URM_BUTTONS = "urm_buttons.png";
 	public static final String VOLUME_BUTTONS = "volume_buttons.png";
-
+	public static final String BAT_SPRITE = "bat.png";
+	public static final String DEATH_SCREEN = "death_screen.png";
+	
+	
+	
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
 		InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
@@ -38,10 +46,24 @@ public class LoadSave {
 		}
 		return img;
 	}
-
+	
+	public static ArrayList<Bat> getBats(){
+			BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
+			ArrayList<Bat> list = new ArrayList<Bat>();
+			for (int j = 0; j < img.getHeight(); j++)
+				for (int i = 0; i < img.getWidth(); i++) {
+					Color color = new Color(img.getRGB(i, j));
+					int value = color.getGreen();
+					if (value == BAT) {
+						list.add(new Bat(i * Game.TILES_SIZE,j * Game.TILES_SIZE));
+					}
+				}
+			return list;
+	}
+	
 	public static int[][] GetLevelData() {
-		int[][] lvlData = new int[Game.TILES_IN_HEIGHT][Game.TILES_IN_WIDTH];
 		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
+		int[][] lvlData = new int[img.getHeight()][img.getWidth()];
 
 		for (int j = 0; j < img.getHeight(); j++)
 			for (int i = 0; i < img.getWidth(); i++) {

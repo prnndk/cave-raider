@@ -31,15 +31,15 @@ public class PauseOverlay {
 	}
 
 	private void createVolumeButton() {
-		int vX =  Game.GAME_WIDTH / 3 - 253;
+		int vX =  Game.GAME_WIDTH / 3 + 10;
 		int vY = (int) (278 * Game.SCALE);
 		volumeButton = new VolumeButton(vX, vY, SLIDER_WIDTH, VOLUME_HEIGHT);
 	}
 
 	private void createUrmButtons() {
-		int menuX = Game.GAME_WIDTH / 3 - 200;
-		int replayX = Game.GAME_WIDTH / 3 + 70;
-		int unpauseX = Game.GAME_WIDTH / 3 - 65;
+		int menuX = Game.GAME_WIDTH / 3 + 350;
+		int replayX = Game.GAME_WIDTH / 3 + 195;
+		int unpauseX = Game.GAME_WIDTH / 3 + 25;
 		int bY = (int) (325 * Game.SCALE);
 
 		menuB = new UrmButton(menuX, bY, URM_SIZE, URM_SIZE, 2);
@@ -49,7 +49,7 @@ public class PauseOverlay {
 	}
 
 	private void createSoundButtons() {
-		int soundX = (int) (450 * Game.SCALE);
+		int soundX = Game.GAME_WIDTH / 3 + 300;
 		int musicY = (int) (140 * Game.SCALE);
 		int sfxY = (int) (186 * Game.SCALE);
 		musicButton = new SoundButton(soundX, musicY, SOUND_SIZE, SOUND_SIZE);
@@ -61,7 +61,7 @@ public class PauseOverlay {
 		backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.PAUSE_BACKGROUND);
 		bgW = (int) (backgroundImg.getWidth() * Game.SCALE);
 		bgH = (int) (backgroundImg.getHeight() * Game.SCALE);
-		bgX = Game.GAME_WIDTH / 3 - 300;
+		bgX = Game.GAME_WIDTH / 3 - 35;
 		bgY = (int) (25 * Game.SCALE);
 
 	}
