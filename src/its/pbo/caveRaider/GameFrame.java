@@ -8,16 +8,11 @@ public class GameFrame {
 
     public GameFrame(GamePanel panel) {
         frame = new JFrame();
+        frame.setTitle("Cave Raider");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
-
-        // Center the frame on the screen
-        frame.setLocationRelativeTo(null);
-
-        // Uncomment the line below if you want the frame to be non-resizable
-        // frame.setResizable(false);
-
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
         frame.addWindowFocusListener(new WindowFocusListener() {
