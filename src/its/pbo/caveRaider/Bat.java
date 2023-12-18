@@ -12,5 +12,11 @@ public class Bat extends Enemy{
 		return this.getHitBox().intersects(player.getHitBox());
 		
 	}
+
+	public void resetEnemy() {
+		// TODO Auto-generated method stub
+		hitBox.x = x;
+		hitBox.y = y;
+	}
 	
 }

@@ -2,6 +2,7 @@ package its.pbo.caveRaider;
 
 import static its.pbo.utilz.Constants.PlayerConstants.*;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,30 +19,47 @@ public class Player extends Entity {
 	public static final String TYPE = "p";
 	private int animTick, animIndex, animSpeed = 25;
 	private int playerAction = IDLE;
-	private boolean moving = false;
+	private boolean moving = false,alive = true;
 	private boolean left, up, right, down, canMove, isMoving;
-	private double playerSpeed = 10f, xSpeed = 0, ySpeed = 0;
+	private double playerSpeed = 15f, xSpeed = 0, ySpeed = 0;
 	private int[][] lvlData;
-	private float xDrawOffset = 3 * Game.SCALE;
-	private float yDrawOffset = 4 * Game.SCALE;
+	private float xDrawOffset = 2 * Game.SCALE;
+	private float yDrawOffset = 7 * Game.SCALE;
 
+	private int flipX = 0;
+	private int flipY = 0;
+	private int flipW = 1;
+	private int flipH = 1;
+	
+	private Playing playing;
 	public Player(double x, double y, int width, int height) {
 		super(x, y, width, height);
 		loadImage();
-		initHitBox(x, y, 15 * Game.SCALE, 13 * Game.SCALE);
+		initHitBox(x, y, 13 * Game.SCALE, 11 * Game.SCALE);
+	}
+	
+	public void setSpawn(Point spawn) {
+		this.x = spawn.x;
+		this.y = spawn.y;
+		hitBox.x = x;
+		hitBox.y = y;
 	}
 
 	public void update() {
+		if(!alive) {
+			playing.setGameOver(true);
+			return;
+		}
 		updatePos();
 		updateAnimationTick();
 		setAnimation();
 	}
 
 	public void render(Graphics g, int xLvlOffset, int yLvlOffset) {
-		g.drawImage(image[playerAction][animIndex], (int) (hitBox.x - xDrawOffset) - xLvlOffset,
-				(int) (hitBox.y - yDrawOffset) - yLvlOffset,
-				width, height, null);
-		// drawHitBox(g);
+		g.drawImage(image[playerAction][animIndex], (int) (hitBox.x - xDrawOffset) - xLvlOffset + flipX,
+				(int) (hitBox.y - yDrawOffset) - yLvlOffset +flipY,
+				width*flipW, height *flipH, null);
+		 drawHitBox(g,xLvlOffset,yLvlOffset);
 	}
 
 	private void updateAnimationTick() {
@@ -82,16 +100,25 @@ public class Player extends Entity {
 		}
 		xSpeed = 0;
 		ySpeed = 0;
-		if (left && !right) {
-			xSpeed = -playerSpeed;
-		} else if (right && !left) {
-			xSpeed = playerSpeed;
+		if(left) {
+			xSpeed -= playerSpeed;
+			flipX = width;
+			flipW = -1;
 		}
-
-		if (up && !down) {
-			ySpeed = -playerSpeed;
-		} else if (down && !up) {
+		if(right) {
+			xSpeed = playerSpeed;
+			flipX = 0;
+			flipW = 1;
+		}
+		if(up) {
+			ySpeed -= playerSpeed;
+			flipY = height;
+			flipH = -1;
+		}
+		if(down) {
 			ySpeed = playerSpeed;
+			flipY = 0;
+			flipH = 1;
 		}
 		canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData);
 		if (canMove) {
@@ -107,21 +134,18 @@ public class Player extends Entity {
 						moving = false;
 						isMoving = false;
 					}
-					System.out.println("is moving: " + isMoving + " move:" + moving + " can move:" + canMove + "\n");
 					setAnimation();
 					try {
-						Thread.sleep(150);
+						Thread.sleep(50);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
-				// Align the player to the grid
-				hitBox.x = Math.round(hitBox.x / (Game.SCALE * 12)) * (Game.SCALE * 12);
-				hitBox.y = Math.round(hitBox.y / (Game.SCALE * 12)) * (Game.SCALE * 12);
 			});
 			movementThread.start();
 		}
 		setAnimation();
+		
 	}
 
 	private void loadImage() {
@@ -173,5 +197,17 @@ public class Player extends Entity {
 
 	public void setDown(boolean down) {
 		this.down = down;
+	}
+
+	public void resetAll() {
+		resetDirBooleans();
+		moving = false;
+		isMoving = false;
+		playerAction = IDLE;
+		flipH = 1;
+		flipW = 1;
+		hitBox.x = x;
+		hitBox.y = y;
+		
 	}
 }

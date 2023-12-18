@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import its.pbo.utilz.LoadSave;
+
 
 
 public class Game implements Runnable {
@@ -38,6 +40,7 @@ public class Game implements Runnable {
 
 		gamePanel = new GamePanel(this);
 		frame = new GameFrame(gamePanel);
+		gamePanel.setFocusable(true);
 		gamePanel.requestFocus();
 
 		startGameLoop();

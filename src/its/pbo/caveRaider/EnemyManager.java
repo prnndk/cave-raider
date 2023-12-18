@@ -15,11 +15,10 @@ public class EnemyManager {
 	public EnemyManager(Playing playing) {
 		this.playing = playing;
 		loadEnemyImages();
-		addEnemies();
 	}
-	private void addEnemies() {
+	public void loadEnemies(Level level) {
 		// TODO Auto-generated method stub
-		bats = LoadSave.getBats();	
+		bats = level.getBats();	
 	}
 	public void update(int[][] lvlData) {
 		for(Bat b: bats) {
@@ -47,4 +46,10 @@ public class EnemyManager {
 
 	public ArrayList<Bat> getBats() {
         return bats;}
+	public void resetAllEnemies() {
+		// TODO Auto-generated method stub
+		for(Bat b: bats) {
+			b.resetEnemy();
+		}
+	}
 }
