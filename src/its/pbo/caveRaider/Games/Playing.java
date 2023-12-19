@@ -12,7 +12,7 @@ import its.pbo.caveRaider.Entities.Bat;
 import its.pbo.caveRaider.Entities.EnemyManager;
 import its.pbo.caveRaider.Entities.Goal;
 import its.pbo.caveRaider.Entities.Player;
-import its.pbo.caveRaider.Graphics.GameOver;
+import its.pbo.caveRaider.Graphics.GameOverOverlay;
 import its.pbo.caveRaider.Graphics.LevelCompletedOverlay;
 import its.pbo.caveRaider.Graphics.PauseOverlay;
 import its.pbo.caveRaider.Graphics.State;
@@ -27,7 +27,7 @@ public class Playing extends State implements Statemethods {
     private ObjectManager objectManager;
     private Goal goal;
     private PauseOverlay pauseOverlay;
-    private GameOver gameOverPanel;
+    private GameOverOverlay GameOverOverlay;
     private LevelCompletedOverlay levelCompleteOverlay;
     private boolean paused = false;
     private boolean gameOver = false;
@@ -49,6 +49,8 @@ public class Playing extends State implements Statemethods {
         calcLvlOffset();
         loadStartLevel();
     }
+    
+    
     
     private void loadStartLevel() {
 		enemyManager.loadEnemies(levelManager.getCurrentLevel());
@@ -78,7 +80,7 @@ public class Playing extends State implements Statemethods {
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
         goal.setSpawn(levelManager.getCurrentLevel().getGoalSpawn());
         pauseOverlay = new PauseOverlay(this);
-        gameOverPanel = new GameOver(this);
+        GameOverOverlay = new GameOverOverlay(this);
         levelCompleteOverlay = new LevelCompletedOverlay(this);
     }
 
@@ -105,7 +107,7 @@ public class Playing extends State implements Statemethods {
 	}
 
 	public void checkSpikesTouched(Player p) {
-//		objectManager.checkSpikesTouched(p);
+		objectManager.checkSpikesTouched(p);
 	}
 
     private void checkPlayerBatCollisions() {
@@ -173,7 +175,7 @@ public class Playing extends State implements Statemethods {
         g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
         pauseOverlay.draw(g);
         }else if(gameOver) {
-        	gameOverPanel.draw(g);
+        	GameOverOverlay.draw(g);
         }else if(lvlCompleted) {        	
         	levelCompleteOverlay.draw(g);
         }
@@ -183,7 +185,7 @@ public class Playing extends State implements Statemethods {
     @Override
     public void keyPressed(KeyEvent e) {
     	if(gameOver) {
-    		gameOverPanel.keyPressed(e);
+    		GameOverOverlay.keyPressed(e);
     	}else if(!player.isMoving()){
     		switch (e.getKeyCode()) {
     		case KeyEvent.VK_A:
