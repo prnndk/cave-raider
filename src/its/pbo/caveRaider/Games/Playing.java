@@ -107,7 +107,7 @@ public class Playing extends State implements Statemethods {
 	}
 
 	public void checkSpikesTouched(Player p) {
-//		objectManager.checkSpikesTouched(p);
+		objectManager.checkSpikesTouched(p);
 	}
 
     private void checkPlayerBatCollisions() {

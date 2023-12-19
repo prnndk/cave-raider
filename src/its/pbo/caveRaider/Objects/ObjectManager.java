@@ -19,7 +19,7 @@ import static its.pbo.utilz.Constants.Projectiles.*;
 public class ObjectManager {
 
 	private Playing playing;
-
+    
 	private BufferedImage[][] potionImgs;
 	private BufferedImage[] cannonImgs;
 	private BufferedImage spikeImg, cannonBallImg;
@@ -33,14 +33,12 @@ public class ObjectManager {
 		loadImgs();
 	}
 
-	// public void checkSpikesTouched(Player p) {
-	// for (Spike s : spikes)
-	// if (s.isActive()) {
-	// if (s.getHitbox().intersects(p.getHitBox())) {
-	// playing.setGameOver(true);
-	// }
-	// }
-	// }
+    public void checkSpikesTouched(Player p) {
+        for (Spike s : spikes)
+            if (s.getHitbox().intersects(p.getHitBox())) {
+                playing.setGameOver(true);
+            }
+    }
 
 	public void checkObjectTouched(Double hitBox) {
 		for (Dots p : dots)
@@ -50,10 +48,10 @@ public class ObjectManager {
 				}
 			}
 	}
-
+	
 	public void loadObjects(Level newLevel) {
 		dots = new ArrayList<>(newLevel.getPotions());
-		spikes = newLevel.getSpikes();
+		spikes = Level.getSpikes();
 		cannons = newLevel.getCannons();
 		projectiles.clear();
 	}
@@ -79,16 +77,12 @@ public class ObjectManager {
 	}
 
 	public void update(int[][] lvlData, Player player) {
-		for (Dots p : dots) {
-			if (p.isActive()) {
+		for (Dots p : dots)
+			if (p.isActive())
 				p.update();
-			}
-
-		}
 
 		updateCannons(lvlData, player);
 		updateProjectiles(lvlData, player);
-//		updateSpike(lvlData, player);
 	}
 
 	private void updateProjectiles(int[][] lvlData, Player player) {
@@ -101,7 +95,6 @@ public class ObjectManager {
 					p.setActive(false);
 			}
 	}
-
 	private void updateCannons(int[][] lvlData, Player player) {
 		for (Cannon c : cannons) {
 			if (!c.doAnimation) {
@@ -124,35 +117,21 @@ public class ObjectManager {
 
 	}
 
-	public void updateSpike(int[][] lvlData, Player player) {
-		for (Spike s : spikes) {
-			if (s.getHitbox().intersects(player.getHitBox())) {
-				s.setActive(true);
-			}
-			if (s.isActive()) {
-				if (s.getHitbox().intersects(player.getHitBox())) {
-					playing.setGameOver(true);
-				}
-			}
-		}
-	}
-
 	public void draw(Graphics g, int xLvlOffset, int yLvlOffset) {
-		drawPotions(g, xLvlOffset, yLvlOffset);
-		drawTraps(g, xLvlOffset, yLvlOffset);
-		drawCannons(g, xLvlOffset, yLvlOffset);
-		drawProjectiles(g, xLvlOffset, yLvlOffset);
+		drawPotions(g, xLvlOffset,yLvlOffset);
+		drawTraps(g, xLvlOffset,yLvlOffset);
+		drawCannons(g, xLvlOffset,yLvlOffset);
+		drawProjectiles(g, xLvlOffset,yLvlOffset);
 	}
 
 	private void drawProjectiles(Graphics g, int xLvlOffset, int yLvlOffset) {
 		for (Projectile p : projectiles)
 			if (p.isActive())
-				g.drawImage(cannonBallImg, (int) (p.getHitbox().x - xLvlOffset), (int) (p.getHitbox().y - yLvlOffset),
-						CANNON_BALL_WIDTH, CANNON_BALL_HEIGHT, null);
+				g.drawImage(cannonBallImg, (int) (p.getHitbox().x - xLvlOffset), (int) (p.getHitbox().y - yLvlOffset), CANNON_BALL_WIDTH, CANNON_BALL_HEIGHT, null);
 
 	}
 
-	private void drawCannons(Graphics g, int xLvlOffset, int yLvlOffset) {
+	private void drawCannons(Graphics g, int xLvlOffset,int yLvlOffset) {
 		for (Cannon c : cannons) {
 			int x = (int) (c.getHitbox().x - xLvlOffset);
 			int y = (int) (c.getHitbox().y - yLvlOffset);
@@ -168,36 +147,33 @@ public class ObjectManager {
 
 	}
 
-	private void drawTraps(Graphics g, int xLvlOffset, int yLvlOffset) {
-		for (Spike s : spikes) {
-			if (s.isActive()) {
-				g.drawImage(spikeImg, (int) (s.getHitbox().x - xLvlOffset), (int) (s.getHitbox().y - yLvlOffset),
-						SPIKE_WIDTH, SPIKE_HEIGHT, null);
-			}
-		}
+	private void drawTraps(Graphics g, int xLvlOffset,int yLvlOffset) {
+		for (Spike s : spikes)
+			g.drawImage(spikeImg, (int) (s.getHitbox().x - xLvlOffset), (int) (s.getHitbox().y - s.getyDrawOffset()), SPIKE_WIDTH, SPIKE_HEIGHT, null);
 
 	}
 
-	private void drawPotions(Graphics g, int xLvlOffset, int yLvlOffset) {
+
+	private void drawPotions(Graphics g, int xLvlOffset,int yLvlOffset) {
 		for (Dots d : dots)
 			if (d.isActive()) {
 				int type = 0;
 				if (d.getObjType() == COIN) {
 					type = 1;
 				}
-				g.drawImage(potionImgs[type][d.getAniIndex()],
-						(int) (d.getHitbox().x - d.getxDrawOffset() - xLvlOffset),
-						(int) (d.getHitbox().y - d.getyDrawOffset() - yLvlOffset), POTION_WIDTH, POTION_HEIGHT, null);
+				g.drawImage(potionImgs[type][d.getAniIndex()], (int) (d.getHitbox().x - d.getxDrawOffset() - xLvlOffset), (int) (d.getHitbox().y - d.getyDrawOffset()- yLvlOffset), POTION_WIDTH, POTION_HEIGHT, null);
 			}
 	}
 
 	public void resetAllObjects() {
 		loadObjects(playing.getLevelManager().getCurrentLevel());
-		for (Dots p : dots) {
-			p.reset();
+		for (Dots p : dots)
+		{
+			p.reset();			
 		}
-		for (Cannon c : cannons) {
-			c.reset();
+		for (Cannon c : cannons)
+		{
+			c.reset();			
 		}
 	}
 }
