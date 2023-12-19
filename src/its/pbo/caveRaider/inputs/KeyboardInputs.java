@@ -3,8 +3,8 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import its.pbo.caveRaider.GamePanel;
-import its.pbo.caveRaider.GameState;
+import its.pbo.caveRaider.Games.GamePanel;
+import its.pbo.caveRaider.Games.GameState;
 
 public class KeyboardInputs implements KeyListener{
 //	private Player player;

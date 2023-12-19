@@ -1,6 +1,6 @@
 package its.pbo.utilz;
 
-import its.pbo.caveRaider.Game;
+import its.pbo.caveRaider.Games.Game;
 
 public class Constants {
 
@@ -50,8 +50,8 @@ public class Constants {
 	public static class ObjectConstanst {
 		public static final int CANNON_LEFT = 5;
 		public static final int CANNON_RIGHT = 6;
-		public static final int RED_POTION = 10;
-		public static final int BLUE_POTION = 1;
+		public static final int COIN = 10;
+		public static final int DOT = 1;
 		public static final int SPIKE = 4;
 
 		public static final int RED_POTION_VALUE = 15;
@@ -75,7 +75,7 @@ public class Constants {
 
 	public static int GetSpriteAmount(int objType) {
 		switch (objType) {
-		case ObjectConstanst.RED_POTION, ObjectConstanst.BLUE_POTION:
+		case ObjectConstanst.COIN, ObjectConstanst.DOT:
 			return 7;
 		case ObjectConstanst.CANNON_LEFT, ObjectConstanst.CANNON_RIGHT:
 			return 7;

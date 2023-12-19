@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import its.pbo.caveRaider.Bat;
-import its.pbo.caveRaider.Game;
+import its.pbo.caveRaider.Entities.Bat;
+import its.pbo.caveRaider.Games.Game;
 
 import static its.pbo.utilz.Constants.EnemyConstants.BAT;
 
@@ -35,6 +35,7 @@ public class LoadSave {
 	public static final String CANNON_BALL = "ball.png";
 	public static final String POTION_ATLAS = "potions_sprites.png";
 	public static final String TRAP_ATLAS = "trap_atlas.png";
+	public static final String DOTS_ATLAS = "dots.png";
 	
 	
 	public static BufferedImage GetSpriteAtlas(String fileName) {

@@ -4,12 +4,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import its.pbo.caveRaider.GamePanel;
-import its.pbo.caveRaider.GameState;
+import its.pbo.caveRaider.Games.GamePanel;
+import its.pbo.caveRaider.Games.GameState;
 
 public class MouseInputs implements MouseListener, MouseMotionListener {
 
-	private its.pbo.caveRaider.GamePanel gamePanel;
+	private its.pbo.caveRaider.Games.GamePanel gamePanel;
 
 	public MouseInputs(GamePanel gamePanel) {
 		this.gamePanel = gamePanel;

@@ -1,4 +1,4 @@
-package its.pbo.utilz;
+	package its.pbo.utilz;
 
 import static its.pbo.utilz.Constants.EnemyConstants.BAT;
 import static its.pbo.utilz.Constants.ObjectConstanst.*;
@@ -9,12 +9,12 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import its.pbo.caveRaider.Cannon;
-import its.pbo.caveRaider.Bat;
-import its.pbo.caveRaider.Game;
-import its.pbo.caveRaider.Potion;
-import its.pbo.caveRaider.Projectile;
-import its.pbo.caveRaider.Spike;
+import its.pbo.caveRaider.Entities.Bat;
+import its.pbo.caveRaider.Games.Game;
+import its.pbo.caveRaider.Objects.Cannon;
+import its.pbo.caveRaider.Objects.Dots;
+import its.pbo.caveRaider.Objects.Projectile;
+import its.pbo.caveRaider.Objects.Spike;
 
 
 public class HelpMethods {
@@ -121,7 +121,7 @@ public class HelpMethods {
 		return false;
 	}
 
-	public static boolean CanCannonSeePlayer(int[][] lvlData, Rectangle2D.Double firstHitbox, Rectangle2D.Float secondHitbox, int yTile) {
+	public static boolean CanCannonSeePlayer(int[][] lvlData, Rectangle2D.Double firstHitbox, Rectangle2D.Double secondHitbox, int yTile) {
 		int firstXTile = (int) (firstHitbox.x / Game.TILES_SIZE);
 		int secondXTile = (int) (secondHitbox.x / Game.TILES_SIZE);
 
@@ -152,14 +152,15 @@ public class HelpMethods {
 		return list;
 	}
 
-	public static ArrayList<Potion> GetPotions(BufferedImage img) {
-		ArrayList<Potion> list = new ArrayList<>();
+	public static ArrayList<Dots> GetPotions(BufferedImage img) {
+		ArrayList<Dots> list = new ArrayList<>();
 		for (int j = 0; j < img.getHeight(); j++)
 			for (int i = 0; i < img.getWidth(); i++) {
 				Color color = new Color(img.getRGB(i, j));
 				int value = color.getBlue();
-				if (value == RED_POTION || value == BLUE_POTION)
-					list.add(new Potion(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+				if (value == COIN || value == DOT) {
+					list.add(new Dots(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));					
+				}
 			}
 
 		return list;
