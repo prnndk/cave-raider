@@ -22,7 +22,7 @@ public class Goal extends Entity {
 	public Goal(double x, double y, int width, int height) {
 		super(x, y, width, height);
 		loadImage();
-		initHitBox(x,y,12*Game.SCALE, 12*Game.SCALE);
+		initHitBox(x,y,width, height);
 		
 	}
 	
@@ -45,6 +45,7 @@ public class Goal extends Entity {
 		g.setColor(Color.YELLOW);
 		g.fillRect((int) hitBox.x - xLvlOffset, (int) hitBox.y - yLvlOffset, width, height);
 		g.drawImage(image[animationIndex],(int) hitBox.x - xLvlOffset,(int) hitBox.y - yLvlOffset, width,height,null);
+		drawHitBox(g, xLvlOffset, yLvlOffset);
 	}
 	
 	private void updateAnimationTick() {

@@ -6,6 +6,9 @@ public class Constants {
 
 	public static final int ANI_SPEED = 25;
 	
+	
+	public static final int ANIM_SPEED = 25; 
+	
 	public static class EnemyConstants{
 		public static final int BAT = 0;
 		
