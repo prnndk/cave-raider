@@ -20,9 +20,9 @@ public LevelCompletedOverlay(Playing playing) {
 	initImg();
 	initButton();
 }
-private void initButton() {
-	int menuX = (int) (290*Game.SCALE);
-	int nextX = (int) (340*Game.SCALE);
+public void initButton() {
+	int menuX = Game.GAME_WIDTH / 3 + 250;
+	int nextX = Game.GAME_WIDTH / 3 + 250;
 	int y = (int) (160*Game.SCALE);
 	next = new UrmButton(nextX, y, URM_SIZE, URM_SIZE, 0);
 	menu = new UrmButton(menuX,y,URM_SIZE,URM_SIZE,2);
