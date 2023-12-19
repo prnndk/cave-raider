@@ -23,7 +23,7 @@ public class Level {
 	private int[][] levelData;
 	private ArrayList<Bat> bats;
 	private ArrayList<Dots> potions;
-	private static ArrayList<Spike> spikes;
+	private ArrayList<Spike> spikes;
 	private ArrayList<Cannon> cannons;
 	private int lvlTilesWide;
     private int lvlTilesHigh;
@@ -108,7 +108,7 @@ public class Level {
 		return potions;
 	}
 
-	public static ArrayList<Spike> getSpikes() {
+	public ArrayList<Spike> getSpikes() {
 		return spikes;
 	}
 	

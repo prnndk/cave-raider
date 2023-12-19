@@ -134,17 +134,15 @@ public class Player extends Entity {
 			flipY = 0;
 			flipH = 1;
 		}
-		canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData);
-		if (canMove) {
+		if (canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData)) {
 			Thread movementThread = new Thread(() -> {
-				while (canMove) {
+				while (canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData)) {
 					hitBox.x += xSpeed;
 					hitBox.y += ySpeed;
 					checkPotionTouched();
 					checkSpikesTouched();
 					tileY = (int) (hitBox.y / Game.TILES_SIZE);
-					canMove = canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData);
-					if (canMove) {
+					if (canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, lvlData)) {
 						moving = true;
 						isMoving = true;
 					} else {
