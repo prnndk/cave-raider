@@ -25,6 +25,7 @@ public class Player extends Entity {
 	private int[][] lvlData;
 	private float xDrawOffset = 2 * Game.SCALE;
 	private float yDrawOffset = 7 * Game.SCALE;
+	private int tileY = 0;
 
 	private int flipX = 0;
 	private int flipY = 0;
@@ -50,10 +51,26 @@ public class Player extends Entity {
 			playing.setGameOver(true);
 			return;
 		}
+		if (moving) {
+			checkPotionTouched();
+			checkSpikesTouched();
+			tileY = (int) (hitBox.y / Game.TILES_SIZE);
+		}
 		updatePos();
 		updateAnimationTick();
 		setAnimation();
+
 	}
+
+	private void checkSpikesTouched() {
+		playing.checkSpikesTouched(this);
+
+	}
+
+	private void checkPotionTouched() {
+		playing.checkPotionTouched(hitBox);
+	}
+
 
 	public void render(Graphics g, int xLvlOffset, int yLvlOffset) {
 		g.drawImage(image[playerAction][animIndex], (int) (hitBox.x - xDrawOffset) - xLvlOffset + flipX,
@@ -148,6 +165,7 @@ public class Player extends Entity {
 		
 	}
 
+	
 	private void loadImage() {
 		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
 		image = new BufferedImage[2][6];
@@ -209,5 +227,9 @@ public class Player extends Entity {
 		hitBox.x = x;
 		hitBox.y = y;
 		
+	}
+
+	public int getTileY() {
+		return tileY;
 	}
 }

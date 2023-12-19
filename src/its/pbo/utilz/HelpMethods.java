@@ -1,6 +1,7 @@
 package its.pbo.utilz;
 
 import static its.pbo.utilz.Constants.EnemyConstants.BAT;
+import static its.pbo.utilz.Constants.ObjectConstanst.*;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -8,8 +9,13 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import its.pbo.caveRaider.Cannon;
 import its.pbo.caveRaider.Bat;
 import its.pbo.caveRaider.Game;
+import its.pbo.caveRaider.Potion;
+import its.pbo.caveRaider.Projectile;
+import its.pbo.caveRaider.Spike;
+
 
 public class HelpMethods {
 	public static boolean canMoveHere(double x, double y, double width, double height, int[][] lvlData) {
@@ -42,6 +48,11 @@ public class HelpMethods {
 			return true;
 		}
 		return false;
+	}
+
+	public static boolean IsProjectileHittingLevel(Projectile p, int[][] lvlData) {
+		return isSolid(p.getHitbox().x + p.getHitbox().width / 2, p.getHitbox().y + p.getHitbox().height / 2, lvlData);
+
 	}
 
 	public static boolean IsEntityOnFloor(Rectangle2D.Double hitbox, int[][] lvlData) {
@@ -100,5 +111,71 @@ public class HelpMethods {
 				}
 			}
 		return new Point(1*Game.TILES_SIZE, 1*Game.TILES_SIZE);
+	}
+
+	public static boolean IsTileSolid(int xTile, int yTile, int[][] lvlData) {
+		int value = lvlData[yTile][xTile];
+
+		if (value >= 48 || value < 0 || value != 11)
+			return true;
+		return false;
+	}
+
+	public static boolean CanCannonSeePlayer(int[][] lvlData, Rectangle2D.Double firstHitbox, Rectangle2D.Float secondHitbox, int yTile) {
+		int firstXTile = (int) (firstHitbox.x / Game.TILES_SIZE);
+		int secondXTile = (int) (secondHitbox.x / Game.TILES_SIZE);
+
+		if (firstXTile > secondXTile)
+			return IsAllTilesClear(secondXTile, firstXTile, yTile, lvlData);
+		else
+			return IsAllTilesClear(firstXTile, secondXTile, yTile, lvlData);
+	}
+
+	public static boolean IsAllTilesClear(int xStart, int xEnd, int y, int[][] lvlData) {
+		for (int i = 0; i < xEnd - xStart; i++)
+			if (IsTileSolid(xStart + i, y, lvlData))
+				return false;
+		return true;
+	}
+
+	public static ArrayList<Cannon> GetCannons(BufferedImage img) {
+		ArrayList<Cannon> list = new ArrayList<>();
+
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getBlue();
+				if (value == CANNON_LEFT || value == CANNON_RIGHT)
+					list.add(new Cannon(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+			}
+
+		return list;
+	}
+
+	public static ArrayList<Potion> GetPotions(BufferedImage img) {
+		ArrayList<Potion> list = new ArrayList<>();
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getBlue();
+				if (value == RED_POTION || value == BLUE_POTION)
+					list.add(new Potion(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+			}
+
+		return list;
+	}
+
+	public static ArrayList<Spike> GetSpikes(BufferedImage img) {
+		ArrayList<Spike> list = new ArrayList<>();
+
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getBlue();
+				if (value == SPIKE)
+					list.add(new Spike(i * Game.TILES_SIZE, j * Game.TILES_SIZE, SPIKE));
+			}
+
+		return list;
 	}
 }

@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D.Double;
 import java.awt.Rectangle;
 import javax.swing.JOptionPane;
+import java.awt.geom.Rectangle2D;
 
 import its.pbo.utilz.LoadSave;
 
@@ -13,6 +14,7 @@ public class Playing extends State implements Statemethods {
     private Player player;
     private LevelManager levelManager;
     private EnemyManager enemyManager;
+    private ObjectManager objectManager;
     private Goal goal;
     private PauseOverlay pauseOverlay;
     private GameOver gameOverPanel;
@@ -40,6 +42,7 @@ public class Playing extends State implements Statemethods {
     
     private void loadStartLevel() {
 		enemyManager.loadEnemies(levelManager.getCurrentLevel());
+        objectManager.loadObjects(levelManager.getCurrentLevel());
 	}
 
 	private void calcLvlOffset() {
@@ -57,8 +60,9 @@ public class Playing extends State implements Statemethods {
     private void initClasses() {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
+        objectManager = new ObjectManager(this);
         
-        goal = new Goal(200, 200, (int) (30*game.SCALE), (int) (30*Game.SCALE));
+        goal = new Goal(200, 200, (int) (30*Game.SCALE), (int) (30*Game.SCALE));
         player = new Player(200, 200, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
@@ -78,12 +82,21 @@ public class Playing extends State implements Statemethods {
     		levelManager.update();
             player.update();
             goal.update();
+            objectManager.update(levelManager.getCurrentLevel().getLevelData(), player);
             enemyManager.update(levelManager.getCurrentLevel().getLevelData());
             checkCloseToBorder();
             checkPlayerBatCollisions();
             checkGoal();
     	}
     }
+
+    public void checkPotionTouched(Double hitBox) {
+		objectManager.checkObjectTouched(hitBox);
+	}
+
+	public void checkSpikesTouched(Player p) {
+		objectManager.checkSpikesTouched(p);
+	}
 
     private void checkPlayerBatCollisions() {
         Double playerHitBox = player.getHitBox();
@@ -144,6 +157,7 @@ public class Playing extends State implements Statemethods {
     player.render(g, xLvlOffset, yLvlOffset);
     goal.render(g, xLvlOffset, yLvlOffset);
     enemyManager.draw(g, xLvlOffset, yLvlOffset);
+    objectManager.draw(g, xLvlOffset);
     if (paused) {
         g.setColor(new Color(0, 0, 0, 150));
         g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
@@ -276,12 +290,21 @@ public class Playing extends State implements Statemethods {
 		this.gameOver = gameOver;
 	}
 
+    public ObjectManager getObjectManager() {
+		return objectManager;
+	}
+
+    public LevelManager getLevelManager() {
+		return levelManager;
+	}
+
 	public void resetAll() {
 		gameOver = false;
 		paused = false;
 		lvlCompleted = false;
 		player.resetAll();
 		enemyManager.resetAllEnemies();
+        objectManager.resetAllObjects();
 	}
 
 }

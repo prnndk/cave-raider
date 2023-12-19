@@ -4,16 +4,23 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import its.pbo.utilz.HelpMethods;
 import its.pbo.utilz.LoadSave;
 import static its.pbo.utilz.HelpMethods.GetLevelData;
 import static its.pbo.utilz.HelpMethods.GetBats;
 import static its.pbo.utilz.HelpMethods.GetPlayerSpawn;
 import static its.pbo.utilz.HelpMethods.GetGoal;
+import static its.pbo.utilz.HelpMethods.GetPotions;
+import static its.pbo.utilz.HelpMethods.GetSpikes;
+import static its.pbo.utilz.HelpMethods.GetCannons;
 
 public class Level {
 	private BufferedImage img;
 	private int[][] levelData;
 	private ArrayList<Bat> bats;
+	private ArrayList<Potion> potions;
+	private static ArrayList<Spike> spikes;
+	private ArrayList<Cannon> cannons;
 	private int lvlTilesWide;
     private int lvlTilesHigh;
     private int maxTilesOffsetX;
@@ -29,12 +36,28 @@ public class Level {
 		calcLvlOffset();
 		calcPlayerSpawn();
 		calcGoalSpawn();
-		
+		createPotions();
+		createSpikes();
+		createCannons();
 	}
+
+	private void createCannons() {
+		cannons = HelpMethods.GetCannons(img);
+	}
+
+	private void createSpikes() {
+		spikes = HelpMethods.GetSpikes(img);
+	}
+
 	private void calcPlayerSpawn() {
 		playerSpawn = GetPlayerSpawn(img);
 		
 	}
+
+	private void createPotions() {
+		potions = HelpMethods.GetPotions(img);
+	}
+
 	private void calcGoalSpawn() {
 		goalSpawn = GetGoal(img);
 	}
@@ -75,6 +98,18 @@ public class Level {
 	}
 	public Point getGoalSpawn() {
 		return goalSpawn; 
+	}
+
+	public ArrayList<Potion> getPotions() {
+		return potions;
+	}
+
+	public static ArrayList<Spike> getSpikes() {
+		return spikes;
+	}
+	
+	public ArrayList<Cannon> getCannons(){
+		return cannons;
 	}
 	
 }

@@ -31,7 +31,10 @@ public class LoadSave {
 	public static final String DEATH_SCREEN = "death_screen.png";
 	public static final String COMPLETED_IMG = "completed_sprite.png";
 	public static final String GOAL_IMG = "goal.png";
-	
+	public static final String CANNON_ATLAS = "cannon_atlas.png";
+	public static final String CANNON_BALL = "ball.png";
+	public static final String POTION_ATLAS = "potions_sprites.png";
+	public static final String TRAP_ATLAS = "trap_atlas.png";
 	
 	
 	public static BufferedImage GetSpriteAtlas(String fileName) {
